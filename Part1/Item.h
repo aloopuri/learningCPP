@@ -22,9 +22,17 @@ public:
 	latitude(latitudeIn), longitude(longitudeIn), ID(IDIn), time(timeIn) {
 	
 	}
+
+    void write (ostream & o) const {
+        o << "{" << latitude << ", " << longitude << ", \"" << ID << "\", " << time << "}";
+    }
+
 };
 
-
+ostream & operator<<(ostream & o, const Item & itemIn) {
+    itemIn.write(o);
+    return o;
+}
 
 // don't write any code below this line
 
