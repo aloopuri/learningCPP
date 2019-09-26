@@ -29,7 +29,9 @@ public:
         o << "{" << latitude << ", " << longitude << ", \"" << ID << "\", " << time << "}";
     }
 
-    //double distanceTo(Item itemIn)
+    double distanceTo(Item itemIn) {
+        
+    }
 
 };
 
