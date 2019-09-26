@@ -7,6 +7,8 @@ using std::ostream;
 #include <string>
 using std::string;
 
+#include <cmath>
+
 // TODO: your code  goes here
 
 class Item {
@@ -23,11 +25,14 @@ public:
 	
 	}
 
-    void write (ostream & o) const {
+    void write(ostream & o) const {
         o << "{" << latitude << ", " << longitude << ", \"" << ID << "\", " << time << "}";
     }
 
+    //double distanceTo(Item itemIn)
+
 };
+
 
 ostream & operator<<(ostream & o, const Item & itemIn) {
     itemIn.write(o);
