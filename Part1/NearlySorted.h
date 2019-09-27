@@ -4,6 +4,7 @@
 
 #include <vector>
 using std::vector;
+#include <algorithm>
 
 /** @brief Class that describes how to sort a nearly-sorted vector */
 class HowToSort {
@@ -68,11 +69,39 @@ public:
 
 // TODO your code goes here:
 
+HowToSort nearlySorted(vector<int> numbers) {
+    if (numbers.size() <= 1){
+        return HowToSort(0,0,true);
+    }
 
+    for (int i = 0; i<numbers.size(); i++){
+        if (numbers[i] > numbers[i+1] &&  i != numbers.size()-1) 
+    }
+    
+    int indexOne = 0;
+    int indexTwo = 0;
+    /*vector<int> subVec;
+    
+    for (int i = 1; i< numbers.size(); i++) {
+        int prev = numbers[i-1];
+        if (!(numbers[i] < (prev+1))){
+            //std::find(numbers[i], numbers.end(), prev+1);
+        }
+    }    */
+    bool searching = false;
+     for (int i = 0; i< numbers.size(); i++) {
+         if (numbers[i] > numbers[i+1] &&  i != numbers.size()-1) {
+             indexOne = i;
+             searching = true;
+             break;
+         }
+     }
 
+     for (int i = indexOne; indexOne < numbers.size(); i++){
+         if ()
+     }
 
-
-
+}
 
 
 // Don't write any code below this line
