@@ -5,8 +5,6 @@
 #include "SimpleVector.h"
 #include <iostream>
 
-using std::cout;
-
 /** TODO: complete the definition of the class CircularBuffer here
  *
  * Its constructor should take the size of the buffer as an argument
@@ -21,39 +19,48 @@ class CircularBuffer {
 
 private:
     SimpleVector<char> simpVec;
+    int start = 0;
+    int end = 0;
 
 public:
     CircularBuffer(int capacity) : simpVec(capacity) {
-        
+
     }
 
     int count(){
         int cnt = 0;
-        for(int i = 0; i< simpVec.size(); i++){
-            if (simpVec[i]!=0){
+        for(int i = 0; i< simpVec.size(); ++i){
+            if (simpVec[i] != '\0'){
                 cnt++;
             }
         }
-        
-        cout << cnt << "\n";
-        
+
         return cnt;
     }
 
     bool full(){
+        if (count() == simpVec.size()){
+            return true;
+        }
 
+        return false;
     }
 
     char add(char letter){
-
+        simpVec[end] = letter;
+        end++;
+        end = end % simpVec.size();
     }
 
     char remove(){
-
+        char letter = simpVec[start];
+        simpVec[start] == '\0';
+        start++;
+        start == start & simpVec.size();
+        return letter;
     }
 
 };
-
 
 // don't write any code below this line
 
