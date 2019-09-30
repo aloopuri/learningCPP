@@ -6,6 +6,7 @@
 using std::vector;
 #include <algorithm>
 
+
 /** @brief Class that describes how to sort a nearly-sorted vector */
 class HowToSort {
 protected:
@@ -71,38 +72,41 @@ public:
 
 HowToSort nearlySorted(vector<int> numbers) {
     if (numbers.size() <= 1){
-        return HowToSort(0,0,true);
+        return HowToSort(0,0,true);     // checks if size <1
     }
 
-    for (int i = 0; i<numbers.size(); i++){
-        if (numbers[i] > numbers[i+1] &&  i != numbers.size()-1) 
-    }
-    
+    bool swap = true;
     int indexOne = 0;
     int indexTwo = 0;
-    /*vector<int> subVec;
-    
-    for (int i = 1; i< numbers.size(); i++) {
-        int prev = numbers[i-1];
-        if (!(numbers[i] < (prev+1))){
-            //std::find(numbers[i], numbers.end(), prev+1);
+    for (int i = 0; i<numbers.size(); i++){         // checks if next num in list is < current
+        if (numbers[i] > numbers[i+1] &&  i != numbers.size()-1) {
+            indexOne = i;
+            break;
         }
-    }    */
-    bool searching = false;
-     for (int i = 0; i< numbers.size(); i++) {
-         if (numbers[i] > numbers[i+1] &&  i != numbers.size()-1) {
-             indexOne = i;
-             searching = true;
-             break;
-         }
-     }
-
-     for (int i = indexOne; indexOne < numbers.size(); i++){
-         if ()
-     }
-
+    }
+    for (int i = indexOne+1; i<numbers.size(); i++ ){   // checks for a num which can swap(no reverse)
+        if (numbers[i] < numbers[indexOne+1] && numbers[i]<= numbers[indexOne]){
+            indexTwo = i;
+        }
+    }
+    
+    if (indexTwo - indexOne >=3){
+        for (int i = indexOne; i< (indexTwo-indexOne); i++){
+            if (numbers[i] > numbers[i+1] && i <indexTwo){      //checks for reverse here
+                swap = false;
+                return HowToSort(indexOne, indexTwo, swap);
+            }
+        }
+    }
+    else{
+        if(indexTwo<indexOne){
+            return HowToSort();
+        }
+        return HowToSort(indexOne, indexTwo, swap);
+    }
+    
+    return HowToSort();
 }
-
 
 // Don't write any code below this line
 
