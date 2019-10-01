@@ -27,7 +27,7 @@ public:
 
     }
 
-    int count(){
+    const int count(){
         int cnt = 0;
         for(int i = 0; i< simpVec.size(); ++i){
             if (simpVec[i] != '\0'){
@@ -38,7 +38,7 @@ public:
         return cnt;
     }
 
-    bool full(){
+    const bool full(){
         if (count() == simpVec.size()){
             return true;
         }
