@@ -27,7 +27,7 @@ public:
     }
 
     double pop(){
-        int temp = stack.back(); 
+        double temp = stack.back(); 
         stack.pop_back();
         return temp;
     }
@@ -88,8 +88,7 @@ double evaluate(const string rpn){
             num2 = numbers.pop();
             num1 = numbers.pop();
             numbers.push(operation(num1, num2, rpn[i]));
-            start = i+1;
-            
+            start = i+1;            
         }
         else if (rpn[i] == ' ' && !isOper(rpn[i-1]) ){
             end = i;
@@ -101,10 +100,6 @@ double evaluate(const string rpn){
     }
     return numbers.pop();
 }
-
-
-
-
 
 // Do not write anything below this line
 

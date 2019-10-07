@@ -81,6 +81,6 @@ int main() {
             ++retval;
         }
     }
-        
+
     return retval;
 }
