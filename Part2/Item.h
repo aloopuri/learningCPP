@@ -32,7 +32,7 @@ public:
         o << "{" << latitude << ", " << longitude << ", \"" << ID << "\", " << time << "}";
     }
 
-    double distanceTo(Item & itemIn) {
+    double const distanceTo(Item & itemIn) {
         double dlon = convertRad(itemIn.longitude- longitude);
         double dlat = convertRad(itemIn.latitude - latitude);
 
@@ -44,6 +44,10 @@ public:
 
     double convertRad(double deg) {
         return (deg * M_PI)/180;
+    }
+
+    int getTime() const{
+        return time;
     }
 
 };
