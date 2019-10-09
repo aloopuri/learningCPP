@@ -31,32 +31,49 @@ public:
     }
 
     vector<Item*> getTour(const double walkSpd) {                         
-        vector<Item*> visited;               
+        vector<Item*> visited;
         Item * visitNext = &items[0]; 
         visited.push_back(visitNext);
 
         for (int i = 0; i < items.size(); ++i){
             if (items[i].getTime() < visitNext->getTime()){
                 visitNext = &items[i];
-            }
-            visited.push_back(visitNext);
-            currentTime += visitNext->getTime(); 
+            }             
         }
-        
+        visited.push_back(visitNext);
+        currentTime += visitNext->getTime();
          
         while (currentTime <= timeLimit){
-            Item * temp;             
+            Item * prev = visitNext;             
             for (int i = 0; i < items.size(); ++i){
-              //  if (items[i] != ){}
-            //}
+                visitNext = &items[i];
+                if (!seenItem(visited, visitNext)){
+
+                    if (visit(prev, visitNext, walkSpd) < (visitNext->getTime()+900)){
+                        visited.push_back(visitNext);
+                        prev = visitNext;
+                    }
+                }
+            }
 
         }
+
+        
         return visited;
     }
 
+    bool seenItem(const vector<Item*> visited, const Item * itemIn) const{
+        for (int i = 0; i< visited.size(); ++i){
+            if(visited[i] == itemIn){
+                return true;
+            }
+        }
+        return false;
+    }
 
-    double visit(Item & curItem, Item & other, double walkSpd){
-        double dist = curItem.distanceTo(other);
+
+    double visit(Item * curItem,  Item * other, double walkSpd){
+        double dist = curItem->distanceTo(*other);
         double walkTime = dist / walkSpd;
 
         return walkTime + currentTime;
