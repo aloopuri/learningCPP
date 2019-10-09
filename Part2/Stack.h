@@ -19,7 +19,7 @@ public:
         
     }
 
-    const bool empty(){
+    const bool empty() const{
         if(stack.size() == 0){
             return true;
         }
@@ -38,7 +38,7 @@ public:
     
 };
 
-bool isOper(char op){
+bool isOper(char op) {
     switch(op){
         case '+':
             return true;
