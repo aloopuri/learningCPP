@@ -9,6 +9,7 @@ using std::ostream;
 #include <string>
 using std::string;
 
+#define _USE_MATH_DEFINES
 #include <cmath>
 
 // TODO: your code  goes here

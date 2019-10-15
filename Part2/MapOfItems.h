@@ -6,10 +6,14 @@
 #include <vector>
 using std::vector;
 
+#include <iostream>
+using std::ostream;
+using std::cout;
+
 // TODO: your code goes here
 
-class MapOfItems {                      // d    15min = 900sec
-                                        //s t
+class MapOfItems {
+
 private:
     vector<Item> items;
     int timeLimit = 3600;
@@ -30,30 +34,50 @@ public:
         return items;
     }
 
-    vector<Item*> getTour(const double walkSpd) {                         
+    vector<Item*> getTour(const double walkSpd) {  
+        currentTime = 0;
+        //cout << "1\n";                       
         vector<Item*> visited;
         Item * visitNext = &items[0]; 
-        visited.push_back(visitNext);
+        //visited.push_back(visitNext);
 
         for (int i = 0; i < items.size(); ++i){
             if (items[i].getTime() < visitNext->getTime()){
                 visitNext = &items[i];
+                //cout << visitNext <<" starty\n";  
             }             
         }
         visited.push_back(visitNext);
         currentTime += visitNext->getTime();
-         
-        while (currentTime <= timeLimit){
-            Item * prev = visitNext;             
-            for (int i = 0; i < items.size(); ++i){
-                visitNext = &items[i];
-                if (!seenItem(visited, visitNext)){
 
-                    if (visit(prev, visitNext, walkSpd) < (visitNext->getTime()+900)){
-                        visited.push_back(visitNext);
-                        prev = visitNext;
+        Item * currentItem = visitNext;
+        Item * temp = nullptr;   
+        //cout << temp << "\n";
+        int time = 0;
+        while (currentTime < timeLimit || visited.size() != items.size()){                      
+            for (int i = 0; i < items.size(); ++i){
+                temp = &items[i];
+                if (seenItem(visited, temp) == false){
+                     //cout << temp <<"\n";
+                    time = temp->getTime()+900;
+                    if (visit(currentItem, temp, walkSpd) <= time){
+                        //visited.push_back(visitNext);
+                        visitNext = temp;
+                        //cout <<" why\n";
                     }
                 }
+
+            }
+            visited.push_back(visitNext);
+            currentItem = visitNext;
+            //cout << visited[visited.size()-1] << " last\n";
+            currentTime = visit(temp, visitNext, walkSpd);
+
+            if (visited.size() == items.size()){
+                for (int i = 0; i< visited.size(); ++i){
+                    cout << visited[i]->getTime() << " " << i << " list\n"; 
+                }
+                break;
             }
 
         }
@@ -63,8 +87,12 @@ public:
     }
 
     bool seenItem(const vector<Item*> visited, const Item * itemIn) const{
+        //cout << "chek\n";
         for (int i = 0; i< visited.size(); ++i){
             if(visited[i] == itemIn){
+                // cout << itemIn << " in\n";
+                // cout << visited[i] << " visited\n";
+
                 return true;
             }
         }
@@ -75,6 +103,11 @@ public:
     double visit(Item * curItem,  Item * other, double walkSpd){
         double dist = curItem->distanceTo(*other);
         double walkTime = dist / walkSpd;
+        // cout << dist << " dist\n";
+        // cout << walkTime << " walktime\n";
+        // cout << walkTime + currentTime << " ret\n";
+
+        
 
         return walkTime + currentTime;
     }
