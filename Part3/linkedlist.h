@@ -5,6 +5,9 @@
 
 #include <utility>
 
+#include <iostream> //DELLETTTTEEEEEEEEEEEEEEEEEEE
+using std::cout;
+
 // Do not add any #include statements here.  If you have a convincing need for adding a different `#include` please post in the forum on KEATS.
 
 // TODO your code goes here:
@@ -19,16 +22,17 @@ public:
 
     LinkedList() : head(nullptr), tail(nullptr) {}
 
-    void push_front(Node<T> item){
+    void push_front(T item){
+        Node<T>* aNode = new Node<T>(item);
         if (head) {
             Node<T>* temp = head;
-            head = &item;
+            head = aNode;
             head->next = temp;
-            temp->previous = head;            
+            temp->previous = head;   
         }
         else {
-            head = &item;
-            tail = &item;
+            head = aNode;
+            tail = aNode;
         }
         count++;
     }
@@ -37,16 +41,17 @@ public:
         return head->data;
     }
 
-    void push_back(Node<T> item){
+    void push_back(T item){
+        Node<T>* aNode = new Node<T>(item);
         if (tail) {
             Node<T>* temp = tail;
-            tail = &item;
+            tail = aNode;
             tail->previous = temp;
             temp->next = tail;
         }
         else {
-            head = &item;
-            tail = &item;
+            head = aNode;
+            tail = aNode;
         }
         count++;
     }
@@ -69,10 +74,21 @@ public:
 
     /////DESTRUCTOR
     ~LinkedList(){
-        delete this;
+        Node<T>* current = head;
+        Node<T>* temp = nullptr;
+        while (current != nullptr) {
+            temp = current->next;
+            delete current;
+            current = temp;
+        }       
     }
 
     void reverse(){
+        if (count <=1){
+            return;
+        }
+        
+
         
     }
     
