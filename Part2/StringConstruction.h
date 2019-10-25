@@ -7,7 +7,9 @@ using std::string;
 
 // TODO: your code goes here:
 
+int stringConstruction(string input, int appendCost, int cloneCost){
 
+}
 
 
 

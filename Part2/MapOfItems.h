@@ -6,10 +6,6 @@
 #include <vector>
 using std::vector;
 
-#include <iostream>
-using std::ostream;
-using std::cout;
-
 // TODO: your code goes here
 
 class MapOfItems {
