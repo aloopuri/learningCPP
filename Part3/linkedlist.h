@@ -5,6 +5,8 @@
 
 #include <utility>
 
+#include <initializer_list>
+
 // Do not add any #include statements here.  If you have a convincing need for adding a different `#include` please post in the forum on KEATS.
 
 // TODO your code goes here:
@@ -18,6 +20,13 @@ public:
     int count = 0;
 
     LinkedList() : head(nullptr), tail(nullptr) {}
+
+    LinkedList(std::initializer_list<T> list) 
+        : head(nullptr), tail(nullptr){
+        for (auto n : list){
+            push_back(n);
+        }
+    }
 
     void push_front(T item){
         Node<T>* aNode = new Node<T>(item);
@@ -65,7 +74,7 @@ public:
         return NodeIterator<T>(head);
     }
 
-    NodeIterator<T> end(){
+    NodeIterator<T> end(){  
         return NodeIterator<T>(nullptr);
     }
 
