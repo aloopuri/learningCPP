@@ -5,9 +5,6 @@
 
 #include <utility>
 
-#include <iostream> //DELLETTTTEEEEEEEEEEEEEEEEEEE
-using std::cout;
-
 // Do not add any #include statements here.  If you have a convincing need for adding a different `#include` please post in the forum on KEATS.
 
 // TODO your code goes here:
@@ -87,14 +84,18 @@ public:
         if (count <=1){
             return;
         }
-        
-
-        
+        Node<T>* current  = head;
+        Node<T>* temp = nullptr;
+        head = tail;        // shouldn't affect the reverse
+        tail = current;     // 
+        while (current != nullptr){
+            temp = current->next;         
+            current->next = current->previous;
+            current->previous = temp;
+            current = temp;
+        }
     }
-    
-
 };
-
 
 // do not edit below this line
 
