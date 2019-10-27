@@ -104,6 +104,52 @@ public:
             current = temp;
         }
     }
+
+    NodeIterator<T> insert(NodeIterator<T> in, T elemIn){
+        Node<T>* newElem = new Node<T>(elemIn);
+        Node<T>* current = in.getCurrent();
+        Node<T>* prev = (in.getCurrent())->previous;
+        prev->next = newElem;
+        newElem->previous = prev;
+        current->previous = newElem;
+        newElem->next = current;
+        return NodeIterator<T>(newElem);
+
+
+    }
+
+    NodeIterator<T> erase(NodeIterator<T> elemErase){
+        Node<T>* current = head;
+        Node<T>* temp = nullptr;
+        while (current != nullptr) {
+            if (current == elemErase.getCurrent()){
+                if (current == head){
+                    temp = head->next;
+                    head = temp;
+                    head->previous = current->previous;
+                    delete current;
+                    break;
+                }
+                else if (current = tail){
+                    temp = current->previous;
+                    temp->next = current->next;
+                    tail = temp;
+                    delete current;
+                    break;
+                }
+                else{
+                    Node<T>* prev = current->previous;
+                    temp = current->next;
+                    prev->next = temp;
+                    temp->previous = prev;
+                    delete current;
+                    break;
+                }              
+            }
+            current = current->next;            
+        }
+        return NodeIterator<T>(temp);
+    }
 };
 
 // do not edit below this line

@@ -48,6 +48,10 @@ public:
     }
 
     // TODO: complete the code for NodeIterator here
+
+    Node<T>* getCurrent() const {
+        return current;
+    }
         
     void operator++(){
         current = current->next;
