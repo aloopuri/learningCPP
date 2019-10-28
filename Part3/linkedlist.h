@@ -43,7 +43,7 @@ public:
         count++;
     }
 
-    T& front(){
+    T& front() const{
         return head->data;
     }
 
@@ -62,11 +62,11 @@ public:
         count++;
     }
 
-    T& back(){
+    T& back() const{
         return tail->data;
     }
 
-    int size(){
+    int size() const{ 
         return count;
     }
 
@@ -105,17 +105,29 @@ public:
         }
     }
 
+    // There can't be a tail case because we always insert behind the node the
+    // iterator is pointing to
     NodeIterator<T> insert(NodeIterator<T> in, T elemIn){
-        Node<T>* newElem = new Node<T>(elemIn);
-        Node<T>* current = in.getCurrent();
-        Node<T>* prev = (in.getCurrent())->previous;
-        prev->next = newElem;
-        newElem->previous = prev;
-        current->previous = newElem;
-        newElem->next = current;
-        return NodeIterator<T>(newElem);
-
-
+        Node<T>* current = head;
+        while (current != nullptr){
+            if (current = in.getCurrent()){
+                if (current == head){
+                    push_front(elemIn);
+                    return NodeIterator<T>(head);
+                }
+                else{
+                    Node<T>* newElem = new Node<T>(elemIn);       
+                    Node<T>* prev = current->previous;
+                    prev->next = newElem;
+                    newElem->previous = prev;
+                    current->previous = newElem;
+                    newElem->next = current;
+                    return NodeIterator<T>(newElem); 
+                }      
+            }
+            current = current->next;
+        }    
+        return NodeIterator<T>(nullptr);
     }
 
     NodeIterator<T> erase(NodeIterator<T> elemErase){
