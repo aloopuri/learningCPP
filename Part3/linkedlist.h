@@ -139,13 +139,16 @@ public:
                     temp = head->next;
                     head = temp;
                     head->previous = current->previous;
+                    count--;
                     delete current;
                     break;
                 }
-                else if (current = tail){
+                else if (current == tail){
                     temp = current->previous;
                     temp->next = current->next;
                     tail = temp;
+                    temp = nullptr;
+                    count--;
                     delete current;
                     break;
                 }
@@ -154,6 +157,7 @@ public:
                     temp = current->next;
                     prev->next = temp;
                     temp->previous = prev;
+                    count--;
                     delete current;
                     break;
                 }              
