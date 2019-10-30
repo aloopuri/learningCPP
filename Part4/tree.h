@@ -15,8 +15,7 @@ public:
     BinarySearchTree(){}
 
     BinarySearchTree(const BinarySearchTree & other){
-        root = other.root;
-        
+        root.reset(other.root.get());                
     }
 
     void write(ostream & out) const{
