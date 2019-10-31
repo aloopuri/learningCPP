@@ -13,7 +13,19 @@ public:
     
     // TODO your code for KeyValuePair goes here
     
-    
+    KeyValuePair(const Key keyIn, Value valueIn) : k(keyIn), v(valueIn){}
+
+    KeyValuePair(Key keyIn) : k(keyIn), v(nullptr){}
+
+    KeyValuePair & operator<(const KeyValuePair & other){
+        if (k<other.k){
+            return *this;
+        }
+        else{
+            return other;
+        }
+        return *this;
+    }
     
 };
 
@@ -45,6 +57,15 @@ public:
     
     // TODO your code for TreeMap goes here:
     
+     KeyValuePair<Key,Value>* find(Key keyIn){
+        TreeNode<KeyValuePair<Key, Value>>* curNode = nullptr;
+
+        while(curNode != nullptr){
+            //if (keyIn < curNode->data->Key)    
+        }
+
+        return nullptr;
+    }
     
     
     
