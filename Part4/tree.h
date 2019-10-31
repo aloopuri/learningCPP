@@ -3,6 +3,8 @@
 
 #include "treenode.h"
 
+#include <iostream>
+using std::cout;
 // TODO your code goes here:
 
 template<typename T>
@@ -14,8 +16,43 @@ private:
 public:
     BinarySearchTree(){}
 
-    BinarySearchTree(const BinarySearchTree & other){
-        root.reset(other.root.get());                
+    BinarySearchTree(const BinarySearchTree & other){        
+        if(!other.root){
+            root = nullptr;
+            return;
+        }
+        root.reset(new TreeNode<T>(other.root.get()->data)); 
+
+        TreeNode<T>* curNode = other.root.get();
+        TreeNode<T>* newTree = root.get();
+        TreeNode<T>* newPrev = nullptr;
+
+        while (curNode != nullptr){
+            if (curNode->leftChild != nullptr && newTree->leftChild == nullptr){
+                curNode = curNode->leftChild.get();
+                newTree->setLeftChild(new TreeNode<T>(curNode->data));
+                newPrev = newTree;
+                newTree = newTree->leftChild.get();
+                newTree->parent = newPrev; 
+            }            
+            else if(curNode->rightChild != nullptr && newTree->rightChild == nullptr){
+                curNode = curNode->rightChild.get();
+                newTree->setRightChild(new TreeNode<T>(curNode->data));
+                newPrev = newTree;
+                newTree = newTree->rightChild.get();
+                newTree->parent = newPrev;
+            }
+            else{
+                curNode = curNode->parent;
+                newTree = newTree->parent;
+                
+            }
+        }                      
+    }
+
+    BinarySearchTree & operator=(const BinarySearchTree & other){
+        cout << other.root.get()->data << " oteher\n";
+        return *this;
     }
 
     void write(ostream & out) const{
@@ -42,8 +79,7 @@ public:
             }
             else {  // if the number isnt less/greater than, it must be the same
                 return curNode;
-            }
-            
+            }            
         }
 
         if (dataIn < prevNode->data){
