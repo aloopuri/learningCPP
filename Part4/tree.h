@@ -44,14 +44,19 @@ public:
             }
             else{
                 curNode = curNode->parent;
-                newTree = newTree->parent;
-                
+                newTree = newTree->parent;                
             }
         }                      
     }
 
     BinarySearchTree & operator=(const BinarySearchTree & other){
-        cout << other.root.get()->data << " oteher\n";
+        if (!other.root){            
+            root.reset(nullptr);
+            return *this;
+        }
+        BinarySearchTree* temp = new BinarySearchTree(other);
+
+        root.reset(temp->root.get());
         return *this;
     }
 
@@ -93,17 +98,14 @@ public:
             prevNode->setRightChild(newNode);
             newNode->parent = prevNode;
             return prevNode->rightChild.get();
-        }       
-        
+        }        
         return nullptr;
     }
 
     TreeNode<T>* find(T dataIn){
         TreeNode<T>* curNode = root.get();
-        TreeNode<T>* prevNode = nullptr;
 
-        while(curNode != nullptr){ // will end on an empty leaf
-            prevNode = curNode;     // this remembers the last node checked
+        while(curNode != nullptr){ 
             if (dataIn < curNode->data){
                 curNode = curNode->leftChild.get();
             }
@@ -116,10 +118,8 @@ public:
 
         }
         return nullptr;
-    }
-    
+    }    
 };
-
 
 // do not edit below this line
 
