@@ -58,6 +58,79 @@ ostream & operator<<(ostream & o1, ostream & o2) {
      return o2;
 }
 
+
+template<typename T>
+class TreeNodeIterator{
+
+private:
+    TreeNode<T>* current;
+
+public:
+    TreeNodeIterator(TreeNode<T>* currentIn)
+        : current(currentIn) {
+    }
+
+    T & operator*() const{
+        return *current;
+    }
+
+    bool operator==(const TreeNodeIterator<T> & other) const{
+        return current == other.current;
+    }
+
+    bool operator!=(const TreeNodeIterator<T> & other) const{
+        return current != other.current;
+    }
+
+    void operator++(){
+        if (!current){
+            return;
+        }
+
+        if (current->rightChild){
+            while (current->leftChild){
+                current = current->leftChild;
+            }
+            return;
+        }
+
+        if (!current->leftChild && !current->rightChild){
+            while(current->data < current->parent->data){
+                current = current->parent;
+            }
+        }
+        
+
+
+        while (current!=nullptr){
+
+            if (current->leftChild && current->rightChild){
+            current = current->rightChild;
+            }
+            else if (!current->leftChild && current->rightChild){
+                current = current->rightChild;
+            }
+            /*else if (current->leftChild && !current->rightChild){
+                current = current->leftChild;
+            }*/
+            else if (!current->leftChild && !current->rightChild){   // SHUD BE LAST
+                if (current->parent == current->parent->leftChild){
+                    current = current->parent;
+                }
+                else if (current->parent = current->parent->rightChild){
+                    current = current->parent->parent;
+                }
+    
+            }
+        }
+        
+        
+        
+        
+    }
+
+};
+
 // do not edit below this line
 
 #endif
