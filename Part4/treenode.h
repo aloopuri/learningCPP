@@ -70,8 +70,8 @@ public:
         : current(currentIn) {
     }
 
-    TreeNode<T> & operator*() const{
-        return *current;
+    T & operator*() const{
+        return current->data;
     }
 
     bool operator==(const TreeNodeIterator<T> & other) const{
@@ -87,20 +87,25 @@ public:
             return;
         }
 
-        if (current->rightChild){
+        if ((current->leftChild && current->rightChild) || current->rightChild){
             current = current->rightChild.get();
             while (current->leftChild){
                 current = current->leftChild.get();
             }
-            return;
         }
-        else if (!current->leftChild && !current->rightChild){
-            while(current->data > current->parent->data){
-                if (current->parent == nullptr){
+        else{
+            while (true){
+                if (!current->parent){
                     current = nullptr;
                     return;
                 }
-                current = current->parent;
+                else if (current->data > current->parent->data){
+                    current = current->parent;
+                }
+                else {
+                    current = current->parent;
+                    break;
+                }
             }
         }
     }

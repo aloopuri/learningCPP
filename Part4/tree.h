@@ -48,18 +48,20 @@ public:
     }
 
     BinarySearchTree & operator=(const BinarySearchTree & other){
-        if (!other.root){            
+        if (!other.root.get()){     
             root.reset(nullptr);
             return *this;
         }
         BinarySearchTree* temp = new BinarySearchTree(other);
-
         root.reset(temp->root.get());
         return *this;
     }
 
     void write(ostream & out) const{
-        (root.get())->write(out);
+        if (root.get()){
+            (root.get())->write(out);
+        }
+        
     }
 
     TreeNode<T>* insert(T dataIn){
@@ -119,14 +121,13 @@ public:
     }    
 
     TreeNodeIterator<T> begin(){
-        cout << "hmm\n";
+        if (root.get() == nullptr){
+            return TreeNodeIterator<T>(nullptr);
+        }
         TreeNode<T>* lowest = root.get();
-        cout << "ok\n";
         while (lowest->leftChild.get() != nullptr){
-            cout << "why\n";
             lowest = lowest->leftChild.get();
         }
-        cout << "yes?\n";
         return TreeNodeIterator<T>(lowest);
     }
 
