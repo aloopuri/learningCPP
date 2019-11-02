@@ -59,7 +59,7 @@ int main() {
         
     }         
     
-    /*{
+    {
         BinarySearchTree<int> tree;
         vector<int> putIn{1,2,3};
         
@@ -138,7 +138,7 @@ int main() {
             ++retval;
             cout << "7) Fail: After inserting 3,1,2, max tree depth is " << tree.maxDepth() << ": is unbalanced, should be 2\n";
         }
-    }*/
+    }
     
     return retval;
     

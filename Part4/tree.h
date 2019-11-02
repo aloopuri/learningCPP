@@ -134,6 +134,13 @@ public:
     TreeNodeIterator<T> end(){
         return TreeNodeIterator<T>(nullptr);
     }
+
+    int maxDepth(){
+        if (!root){
+            return 0;
+        }
+        return root.get()->maxDepth(root.get());
+    }
 };
 
 // do not edit below this line

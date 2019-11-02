@@ -52,6 +52,21 @@ public:
 
         return out;
     }
+
+    int maxDepth(TreeNode* root){
+        if (!root){
+            return 0;
+        }
+        int leftTree = maxDepth(root->leftChild.get());
+        int rightTree = maxDepth(root->rightChild.get());
+
+        if (leftTree > rightTree){
+            return leftTree +1;
+        }
+        else {
+            return rightTree + 1;
+        }
+    }
 };
 
 ostream & operator<<(ostream & o1, ostream & o2) {
