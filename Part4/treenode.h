@@ -70,7 +70,7 @@ public:
         : current(currentIn) {
     }
 
-    T & operator*() const{
+    TreeNode<T> & operator*() const{
         return *current;
     }
 
@@ -88,45 +88,21 @@ public:
         }
 
         if (current->rightChild){
+            current = current->rightChild.get();
             while (current->leftChild){
-                current = current->leftChild;
+                current = current->leftChild.get();
             }
             return;
         }
-
-        if (!current->leftChild && !current->rightChild){
-            while(current->data < current->parent->data){
+        else if (!current->leftChild && !current->rightChild){
+            while(current->data > current->parent->data){
+                if (current->parent == nullptr){
+                    current = nullptr;
+                    return;
+                }
                 current = current->parent;
             }
         }
-        
-
-
-        while (current!=nullptr){
-
-            if (current->leftChild && current->rightChild){
-            current = current->rightChild;
-            }
-            else if (!current->leftChild && current->rightChild){
-                current = current->rightChild;
-            }
-            /*else if (current->leftChild && !current->rightChild){
-                current = current->leftChild;
-            }*/
-            else if (!current->leftChild && !current->rightChild){   // SHUD BE LAST
-                if (current->parent == current->parent->leftChild){
-                    current = current->parent;
-                }
-                else if (current->parent = current->parent->rightChild){
-                    current = current->parent->parent;
-                }
-    
-            }
-        }
-        
-        
-        
-        
     }
 
 };

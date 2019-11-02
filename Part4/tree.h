@@ -117,6 +117,22 @@ public:
         }
         return nullptr;
     }    
+
+    TreeNodeIterator<T> begin(){
+        cout << "hmm\n";
+        TreeNode<T>* lowest = root.get();
+        cout << "ok\n";
+        while (lowest->leftChild.get() != nullptr){
+            cout << "why\n";
+            lowest = lowest->leftChild.get();
+        }
+        cout << "yes?\n";
+        return TreeNodeIterator<T>(lowest);
+    }
+
+    TreeNodeIterator<T> end(){
+        return TreeNodeIterator<T>(nullptr);
+    }
 };
 
 // do not edit below this line
