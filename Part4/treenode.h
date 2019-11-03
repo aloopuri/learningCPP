@@ -30,8 +30,11 @@ public:
     }
 
     void setLeftChild(TreeNode* child) {
+        //cout << "wow\n";
         leftChild.reset(child);
+        //cout << "pwease\n";
         child->parent = this;
+        //cout << "wpork\n";
     }
 
     void setRightChild(TreeNode* child) {

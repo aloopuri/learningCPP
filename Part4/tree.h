@@ -91,15 +91,91 @@ public:
             TreeNode<T>* newNode = new TreeNode<T>(dataIn);
             prevNode->setLeftChild(newNode);
             newNode->parent = prevNode;
+            if (maxDepth() >2){
+               balance(newNode); 
+            }
             return prevNode->leftChild.get();
         }
         else if (prevNode->data < dataIn){
             TreeNode<T>* newNode = new TreeNode<T>(dataIn);
             prevNode->setRightChild(newNode);
             newNode->parent = prevNode;
+            if (maxDepth() > 2){
+                balance(newNode);
+            }            
             return prevNode->rightChild.get();
         }        
         return nullptr;
+    }
+
+    void balance(TreeNode<T>* nodeIn){
+        //TreeNode<T>* topNode = root.get();
+        int balanceFactor = balFactor();
+        if (balanceFactor == 2){      // LEFT SUBTREE
+            TreeNode<T>* parent = nodeIn->parent;
+            TreeNode<T>* daddy = parent->parent;
+            if (nodeIn == parent->leftChild.get()){
+                if(root.get() == daddy){    // RIGHT ROATATION on root
+                    TreeNode<T>* oldRoot = root.release();
+                    parent->setLeftChild(oldRoot);
+                    root.reset(oldRoot->leftChild.release());
+                    oldRoot->parent = parent;
+                    parent->parent = nullptr;                                 
+                    /* cout << topNode->data << "\n";
+                   // cout << " one\n";
+                    parent->parent = nullptr;
+                   // cout  << topNode->data << "two\n";
+                    parent->setRightChild(daddy);
+                    //cout  << topNode->data<< "two\n";
+                   // cout << daddy->leftChild.get()->data << " dad\n";
+                    TreeNode<T>* newRoot = daddy->leftChild.release();
+                    daddy->leftChild.reset(nullptr);
+                    //cout  << topNode->data<< "opium\n";
+                    daddy->parent = newRoot;
+                    root.reset(newRoot);
+                    //cout << topNode->data << "\n";*/
+                }
+                else {  //RIGHT ROTATION WHERE DADDY'S PARENT != NULLPTR
+                    /*parent->parent = daddy->parent;
+                    parent->setRightChild(daddy);
+                    daddy->setLeftChild(nullptr);
+                    daddy->parent = parent;  */                  
+                }
+            } 
+            else{   // LEFT RIGHT ROTATION
+                if(root.get() == daddy){
+                    
+                }
+                else{
+
+                }
+            }           
+        }
+        else if (balanceFactor == -2){      //RIGHT SUBTREE
+            TreeNode<T>* parent = nodeIn->parent;
+            TreeNode<T>* daddy = parent->parent;
+            if (nodeIn == parent->rightChild.get()){     
+                if (root.get() == daddy){        // LEFT ROTATION ON ROOT
+                TreeNode<T>* oldRoot = root.release(); 
+                parent->setRightChild(oldRoot);
+                root.reset(oldRoot->rightChild.release());
+                oldRoot->parent = parent;
+                parent->parent = nullptr;
+
+                }
+                else{
+
+                }
+            }
+        }
+        else{
+            return;
+        }
+    }
+
+    int balFactor(){
+        TreeNode<T>* topNode = root.get();
+        return topNode->maxDepth(topNode->leftChild.get()) - topNode->maxDepth(topNode->rightChild.get());
     }
 
     TreeNode<T>* find(T dataIn){
