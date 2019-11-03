@@ -85,6 +85,14 @@ int main() {
         
         if (!checkAnswer(board.get(), easyAnswer)) {
             cout << "Failed: The board has the wrong answer in it\n";
+            for (int i = 0; i < 9; ++i){
+                for (int j = 0; j < 9; ++j){
+                    for(auto i : board.get()->board[i][j]){            
+                        cout << i << ", ";
+                    } 
+                    cout << "\n";   
+                }
+        }
             return 1;
         }
         
