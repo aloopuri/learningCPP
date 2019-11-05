@@ -115,32 +115,20 @@ public:
             TreeNode<T>* parent = nodeIn->parent;
             TreeNode<T>* daddy = parent->parent;
             if (nodeIn == parent->leftChild.get()){
-                if(root.get() == daddy){    // RIGHT ROATATION on root
-                    TreeNode<T>* oldRoot = root.release();
-                    parent->setLeftChild(oldRoot);
+               // if(root.get() == daddy){    // RIGHT ROATATION on root
+                    rightRotation(daddy, parent);
+                    /*TreeNode<T>* oldRoot = root.release();
+                    parent->setRightChild(oldRoot);
                     root.reset(oldRoot->leftChild.release());
                     oldRoot->parent = parent;
-                    parent->parent = nullptr;                                 
-                    /* cout << topNode->data << "\n";
-                   // cout << " one\n";
-                    parent->parent = nullptr;
-                   // cout  << topNode->data << "two\n";
-                    parent->setRightChild(daddy);
-                    //cout  << topNode->data<< "two\n";
-                   // cout << daddy->leftChild.get()->data << " dad\n";
-                    TreeNode<T>* newRoot = daddy->leftChild.release();
-                    daddy->leftChild.reset(nullptr);
-                    //cout  << topNode->data<< "opium\n";
-                    daddy->parent = newRoot;
-                    root.reset(newRoot);
-                    //cout << topNode->data << "\n";*/
-                }
-                else {  //RIGHT ROTATION WHERE DADDY'S PARENT != NULLPTR
+                    parent->parent = nullptr;   */                              
+                //}
+                //else {  //RIGHT ROTATION WHERE DADDY'S PARENT != NULLPTR
                     /*parent->parent = daddy->parent;
                     parent->setRightChild(daddy);
                     daddy->setLeftChild(nullptr);
                     daddy->parent = parent;  */                  
-                }
+                //}
             } 
             else{   // LEFT RIGHT ROTATION
                 if(root.get() == daddy){
@@ -155,17 +143,25 @@ public:
             TreeNode<T>* parent = nodeIn->parent;
             TreeNode<T>* daddy = parent->parent;
             if (nodeIn == parent->rightChild.get()){     
-                if (root.get() == daddy){        // LEFT ROTATION ON ROOT
-                TreeNode<T>* oldRoot = root.release(); 
-                parent->setRightChild(oldRoot);
+                //if (root.get() == daddy){        // LEFT ROTATION ON ROOT
+                leftRotation(daddy, parent);
+                /*TreeNode<T>* oldRoot = root.release(); 
+                parent->setLeftChild(oldRoot);
                 root.reset(oldRoot->rightChild.release());
                 oldRoot->parent = parent;
-                parent->parent = nullptr;
+                parent->parent = nullptr;*/
 
-                }
-                else{
+                //}
+                //else{   //LEFT ROTATION ON SUBTREE WITH PARENT NODE
+                //TreeNode<T>* subRoot = daddy->parent;
+                                
+                //parent->setRightChild()
+                //}
+            }
+            else {  // RIGHT LEFT ROTATION
+               // TreeNode<T>* temp = daddy->rightChild.release();
 
-                }
+
             }
         }
         else{
@@ -176,6 +172,45 @@ public:
     int balFactor(){
         TreeNode<T>* topNode = root.get();
         return topNode->maxDepth(topNode->leftChild.get()) - topNode->maxDepth(topNode->rightChild.get());
+    }
+
+    void rightRotation(TreeNode<T>* daddy, TreeNode<T>* parent){
+        if (root.get() == daddy){    // RIGHT ROATATION on root
+            TreeNode<T>* oldRoot = root.release();
+            parent->setRightChild(oldRoot);
+            root.reset(oldRoot->leftChild.release());
+            oldRoot->parent = parent;
+            parent->parent = nullptr;                                 
+            }
+        else {  //RIGHT ROTATION WHERE DADDY'S PARENT != NULLPTR
+            TreeNode<T>* subRoot = daddy->parent;
+            TreeNode<T>* newRight = subRoot->leftChild.release();  
+            subRoot->setLeftChild(newRight->leftChild.release());
+            TreeNode<T>* newTop = subRoot->leftChild.get();
+            newTop->parent = subRoot;
+            newTop->setRightChild(newRight);
+            newRight->parent = newTop;      
+        } 
+    }
+
+    void leftRotation(TreeNode<T>* daddy, TreeNode<T>* parent){
+            if (root.get() == daddy){        // LEFT ROTATION ON ROOT
+                TreeNode<T>* oldRoot = root.release(); 
+                parent->setLeftChild(oldRoot);
+                root.reset(oldRoot->rightChild.release());
+                oldRoot->parent = parent;
+                parent->parent = nullptr;
+            }
+            else{   //LEFT ROTATION ON SUBTREE WITH PARENT NODE
+                TreeNode<T>* subRoot = daddy->parent;
+                TreeNode<T>* newLeft = subRoot->rightChild.release();
+                subRoot->setRightChild(newLeft->rightChild.release());
+                TreeNode<T>* newTop = subRoot->rightChild.get();
+                newTop->parent = subRoot;
+                newTop->setLeftChild(newLeft);
+                newLeft->parent = newTop;        
+            }
+            
     }
 
     TreeNode<T>* find(T dataIn){
