@@ -169,7 +169,14 @@ public:
             for (int j = 0; j < size; ++j){
                 for(auto k : board[i][j]){ 
                     count++;
-                    cout << getSquare(i,j);   
+                    int num = getSquare(i,j);
+                    if (num != -1){
+                        cout << num;
+                    }
+                    else {
+                        cout << " "; 
+                    }
+                      
                     break;
                 }
                 if(j == size -1){
@@ -186,17 +193,36 @@ public:
             for (int j = 0; j < size; ++j){
                 if (board[i][j].size() > 1){
                     //cout << "here?\n";
-                    set<int> leftSquare = board[i][0];
-                    Sudoku* newboard = new Sudoku(*this);
-                    if(newboard->setSquare(i,j, *leftSquare.begin())){  
-                        //setSquare(i,j, *leftSquare.begin());                      
-                        //unique_ptr(newboard);
-                        //cout << "isjsf\n";
-                        //newboard->write(cout);
-                        succ.push_back(unique_ptr<Searchable>(newboard));
-                    }    
-                    else {
-                        delete newboard;
+                    for (auto num : board[i][j]){
+                        set<int> leftSquare;
+                        for(int k = 0; k < size; ++k){
+                            if (k == j){}//cout << j << ", " << k << "\n";}
+                            else if (getSquare(i,k) == -1){
+                                leftSquare = board[i][k];
+                                cout << i << ", " << k << "\n";
+                                break;
+                            }
+                        }
+                            
+                        Sudoku* newboard = new Sudoku(*this);
+                        for (auto x : leftSquare){
+                            bool bo = newboard->setSquare(i,j, x);
+                            if(bo){  
+                                //setSquare(i,j, *leftSquare.begin());                      
+                                //unique_ptr(newboard);
+                                //cout << "isjsf\n";
+                                newboard->write(cout);
+                                succ.push_back(unique_ptr<Searchable>(newboard));
+                                //break;
+                            }
+                            else {
+                                delete newboard;
+                                //board[i][j].erase(num);
+                                //delete &num;
+                            } 
+                        }
+                                              
+                    
                     }                   
                 }                                
             }
