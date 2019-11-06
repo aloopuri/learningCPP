@@ -188,31 +188,30 @@ public:
 
     virtual vector<unique_ptr<Searchable>> successors() const override{
         vector<unique_ptr<Searchable>> succ;
+        Sudoku * changes = new Sudoku(*this);
 
         for (int i = 0; i < size; ++i){
             for (int j = 0; j < size; ++j){
                 if (board[i][j].size() > 1){
                     //cout << "here?\n";
-                    for (auto num : board[i][j]){
+                    /*for (auto num : board[i][j]){
                         set<int> leftSquare;
                         for(int k = 0; k < size; ++k){
-                            if (k == j){}//cout << j << ", " << k << "\n";}
-                            else if (getSquare(i,k) == -1){
+                            if (k == j){continue;}//cout << j << ", " << k << "\n";}
+                            if (getSquare(i,k) == -1){
                                 leftSquare = board[i][k];
-                                cout << i << ", " << k << "\n";
-                                break;
+                                //cout << i << ", " << k << "\n";
+                                //break;
                             }
                         }
                             
-                        Sudoku* newboard = new Sudoku(*this);
-                        for (auto x : leftSquare){
-                            bool bo = newboard->setSquare(i,j, x);
-                            if(bo){  
-                                //setSquare(i,j, *leftSquare.begin());                      
-                                //unique_ptr(newboard);
-                                //cout << "isjsf\n";
+                        Sudoku* newboard = new Sudoku(*changes);
+                        //for (auto x : leftSquare){
+                            bool bo = newboard->setSquare(i,j,*leftSquare.begin());
+                            if(bo){   
                                 newboard->write(cout);
                                 succ.push_back(unique_ptr<Searchable>(newboard));
+                                changes = newboard;
                                 //break;
                             }
                             else {
@@ -220,11 +219,40 @@ public:
                                 //board[i][j].erase(num);
                                 //delete &num;
                             } 
+                        //}*/
+                        set<int> leftSquare;
+                        for(int k = 0; k < size; ++k){
+                            if(getSquare(i,k) == -1){
+                                leftSquare =  board[i][k];
+                                break;
+                            }
                         }
+
+                        for(auto x : leftSquare){
+                            Sudoku* newboard = new Sudoku(*changes);
+                        
+                            bool bo = newboard->setSquare(i,j,x);
+                                if(bo){   
+                                    newboard->write(cout);
+                                    succ.push_back(unique_ptr<Searchable>(newboard));
+                                    changes = newboard;
+                                    break;
+                                }
+                                else {
+                                    delete newboard;
+                                } 
+                        }
+                        
+
+                        
+
                                               
                     
-                    }                   
-                }                                
+                    //}                   
+                }    
+                if (isSolution()){
+                    return succ;
+                }                            
             }
         }
         return succ;
